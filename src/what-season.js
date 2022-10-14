@@ -12,29 +12,23 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 function getSeason(date) {
-  let dateWrapper = new Date(date);
   if (date == null || date == "underfined") {
     return "Unable to determine the time of year!";
   }
-  if (isNaN(dateWrapper.getDate())) {
+
+ if (!(date instanceof Date)) {
     throw new Error("Invalid date!");
-  }
-  if (
-    typeof date.toString !== "function" ||
-    typeof date.getFullYear !== "function" ||
-    typeof date.getDate !== "function" ||
-    typeof date.getHours !== "function" ||
-    typeof date.getMinutes !== "function" ||
-    typeof date.getSeconds !== "function" ||
-    typeof date.getMilliseconds !== "function" ||
-    typeof date.getDay !== "function" ||
-    !(date instanceof Date)
-  ) {
-    throw new Error("Invalid date!");
-  }
-  
-  
-    let month = date.getMonth();
+ }
+
+ try{
+  JSON.stringify(date);
+  date.getMonth();
+  date.toString();
+  } catch{
+  throw new Error("Invalid date!");
+}
+ 
+  let month = date.getMonth();
  
 
   if (month < 2 || month == 11) {
@@ -46,7 +40,7 @@ function getSeason(date) {
   } else if (month < 11) {
     return "fall";
   }
-  throw new Error("Invalid date!");
+  return "Invalid date!";
 }
 
 module.exports = {
